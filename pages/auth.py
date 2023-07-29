@@ -1,5 +1,4 @@
 import ast
-
 from pages.base import BasePage
 from pages.locators import *
 import time
@@ -60,16 +59,19 @@ class AuthPage(BasePage):
         self.reg_in.click()
         time.sleep(10)
 
-    def active_tab(self):
+    def switch_active_tab(self):
         self.active_tab()
+	
+	 def check_color(self, elem):
+        try:
+            rgba = elem.value_of_css_property('color')
+            r, g, b, alpha = ast.literal_eval(rgba.strip('rgba'))
+            return '#%02x%02x%02x' % (r, g, b)
+        except Exception as e:
+            print(f"Произошла ошибка при проверке цвета: {e}")
+            return None
 
-    def check_color(self, elem):
-        rgba = elem.value_of_css_property('color')
-        r, g, b, alpha = ast.literal_eval(rgba.strip('rgba'))
-        hex_value = '#%02x%02x%02x' % (r, g, b)
-        return hex_value
-
-
+	
 class NewPassPage(BasePage):
     def __init__(self, driver, timeout=10):
         super().__init__(driver, timeout)
@@ -84,3 +86,10 @@ class NewPassPage(BasePage):
     def btn_click_continue(self):
         self.btn.click()
         time.sleep(10)
+		
+	def btn_click_continue(self):
+        try:
+            self.btn.click()
+            time.sleep(10)
+        except Exception as e:
+            print(f"Произошла ошибка при нажатии кнопки 'Продолжить': {e}")
