@@ -10,8 +10,7 @@ def auth_page(browser):
 @pytest.mark.parametrize('username', ['valid_phone', 'valid_email', 'valid_login', 'invalid_ls'],
                          ids=['phone', 'email', 'login', 'ls'])
 def test_active_tab(auth_page, username):
-    """Проверка автоматического переключения табов телефон/email/логин/лицевой счет"""
-    
+    #Проверка автоматического переключения табов телефон/email/логин/лицевой счет
     auth_page.enter_username(username)
     auth_page.enter_password('valid_password')
     
@@ -30,8 +29,7 @@ def test_active_tab(auth_page, username):
 
 
 def test_invalid_password(auth_page):
-    """Проверка авторизации с недопустимым паролем"""
-    
+    #Проверка авторизации с недопустимым паролем
     auth_page.enter_username('valid_username')
     auth_page.enter_password('invalid_password')
     auth_page.submit_form()
@@ -42,9 +40,7 @@ def test_invalid_password(auth_page):
 @pytest.mark.parametrize('username', ['valid_phone', 'valid_login'],
                          ids=['valid phone', 'valid login'])
 def test_auth_page_phone_login_valid(auth_page, username):
-    """Проверка авторизации по номеру телефона/логину и паролю + проверка
-    автоматического переключения табов тел/логин (для проверки нужен зарегистрированный номер телефона)"""
-    
+    #Проверка авторизации по номеру телефона/логину и паролю
     auth_page.enter_username(username)
     auth_page.enter_password('valid_password')
     auth_page.btn_click_enter()
@@ -54,8 +50,7 @@ def test_auth_page_phone_login_valid(auth_page, username):
 
 @pytest.mark.screenshot
 def test_auth_page_email_valid(auth_page):
-    """Проверка авторизации по почте и паролю"""
-    
+    #Проверка авторизации по почте и парол.
     auth_page.enter_username('valid_email')
     auth_page.enter_password('valid_pass_reg')
     auth_page.submit_form()
@@ -64,8 +59,7 @@ def test_auth_page_email_valid(auth_page):
 
 
 def test_captcha(auth_page, monkeypatch):
-    """Проверка авторизации с Captcha"""
-    
+    #Проверка авторизации с капча
     auth_page.enter_username('valid_email')
     auth_page.enter_password('valid_password')
     
@@ -82,8 +76,7 @@ def test_captcha(auth_page, monkeypatch):
     assert auth_page.is_logged_in()
 
 def test_no_captcha(auth_page, monkeypatch):
-    """Проверка авторизации без Captcha"""
-    
+    #Проверка авторизации без Captcha
     auth_page.enter_username('valid_email')
     auth_page.enter_password('valid_password')
     
