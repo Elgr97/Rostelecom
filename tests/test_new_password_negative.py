@@ -10,7 +10,6 @@ from pages.new_pass_locators import NewPassLocators
 
 def test_forgot_password_page(browser):
     #Проверка восстановления пароля по почте - негативные сценарии
-    #Разделяем email на имя и домен для использования в следующих запросах:
     sign_at = valid_email.find('@')
     mail_name = valid_email[0:sign_at]
     mail_domain = valid_email[sign_at + 1:len(valid_email)]
@@ -27,10 +26,10 @@ def test_forgot_password_page(browser):
     #Проверяем почтовый ящик на наличие писем и достаём ID последнего письма
     result_id, status_id = RegistrationEmail().get_id_letter(mail_name, mail_domain)
     
-	#Получаем id письма с кодом из почтового ящика:
+    #Получаем id письма с кодом из почтового ящика:
     id_letter = result_id[0].get('id')
     
-	#Сверяем полученные данные
+    #Сверяем полученные данные
     assert status_id == 200, "status_id error"
     assert id_letter > 0, "id_letter > 0 error"
 
@@ -40,11 +39,11 @@ def test_forgot_password_page(browser):
     #Получаем body из текста письма:
     text_body = result_code.get('body')
     
-	#Извлекаем код из текста методом find:
+    #Извлекаем код из текста методом find:
     reg_code = text_body[text_body.find('Ваш код: ') + len('Ваш код: '):
                          text_body.find('Ваш код: ') + len('Ваш код: ') + 6]
     
-	#Сверяем полученные данные с нашими ожиданиями
+    #Сверяем полученные данные с нашими ожиданиями
     assert status_code == 200, "status_code error"
     assert reg_code != '', "reg_code != [] error"
 
