@@ -12,7 +12,7 @@ class TestNewPasswordPositive:
     @pytest.mark.positive
     def test_forgot_password_page(self, browser):
 	
-		#Проверка восстановления пароля по почте.
+#Проверка восстановления пароля по почте.
         email_page = NewPassPage(browser)
         email_page.enter_username(valid_email)
         email_page.btn_click_continue()
@@ -21,29 +21,29 @@ class TestNewPasswordPositive:
         wait.until(EC.presence_of_element_located((By.XPATH,
 		'//*[@id="id_of_element"]')))
 
-        #Проверяем почтовый ящик на наличие писем и достаём ID последнего письма
+#Проверяем почтовый ящик на наличие писем и достаём ID последнего письма
         mail_name, mail_domain = valid_email.split('@')
 
         id_letter, status_id = RegistrationEmail().get_id_letter(mail_name, mail_domain)
 		
-		#Сверяем полученные данные
+#Сверяем полученные данные
         assert status_id == 200, "status_id error"
         assert id_letter > 0, "id_letter > 0 error"
 
         id_letter = str(id_letter[0]['id'])
 		
-        #Получаем код регистрации из письма от Ростелекома
+#Получаем код регистрации из письма от Ростелекома
         code, status_code = RegistrationEmail().get_reg_code(mail_name, mail_domain, id_letter)
         assert status_code == 200, "status_code error"
 		
-		#Получаем body из текста письма:
+#Получаем body из текста письма:
         text_body = code['body']
 		
-		#Извлекаем код из текста методом find:
+#Извлекаем код из текста методом find:
         reg_code = text_body[text_body.find('Ваш код: ') + len('Ваш код: '):
                              text_body.find('Ваш код: ') + len('Ваш код: ') + 6]
 							 
-		#Сверяем полученные данные					 
+#Сверяем полученные данные					 
         assert reg_code != '', "reg_code != [] error"
 
         digits = [int(char) for char in reg_code]
@@ -57,7 +57,8 @@ class TestNewPasswordPositive:
         browser.find_element(*NewPassLocators.NEWPASS_NEW_PASS).send_keys(new_pass)     browser.find_element(*NewPassLocators.NEWPASS_NEW_PASS_CONFIRM).send_keys(new_pass)
         browser.find_element(*NewPassLocators.NEWPASS_BTN_SAVE).click()
 
-        #В случае успешной смены пароля, перезаписываем его в файл settings     wait.until(EC.url_matches('/auth/realms/b2c/login-actions/authenticate'))
+ #В случае успешной смены пароля, перезаписываем его в файл settings     
+	wait.until(EC.url_matches('/auth/realms/b2c/login-actions/authenticate'))
         assert email_page.get_relative_link() == '/auth/realms/b2c/login-actions/authenticate'
 
         with open(r"../pages/settings.py", 'r', encoding='utf8') as file:
