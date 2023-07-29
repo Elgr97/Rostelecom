@@ -14,8 +14,7 @@ from pages.settings import *
                               'special', 'number'])
 def test_get_registration_invalid_format_firstname(browser, firstname):
 
-    """Негативные сценарии регистрации на сайте, невалидный формат имени"""
-
+    #Негативные сценарии регистрации на сайте, невалидный формат имен
     # Нажимаем на кнопку Зарегистрироваться:
     page = AuthPage(browser)
     page.enter_reg_page()
@@ -23,21 +22,27 @@ def test_get_registration_invalid_format_firstname(browser, firstname):
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(fake_lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(fake_email)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(fake_password)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
@@ -56,7 +61,7 @@ def test_get_registration_invalid_format_firstname(browser, firstname):
 
 def test_get_registration_invalid_format_lastname(browser, lastname):
 
-    """Негативные сценарии регистрации на сайте, невалидный формат фамилии"""
+    #Негативные сценарии регистрации на сайте, невалидный формат фамилии
 
     # Нажимаем на кнопку Зарегистрироваться:
     page = AuthPage(browser)
@@ -65,21 +70,27 @@ def test_get_registration_invalid_format_lastname(browser, lastname):
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(fake_firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(fake_email)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(fake_password)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
@@ -94,30 +105,35 @@ def test_get_registration_invalid_format_lastname(browser, lastname):
 
 def test_get_registration_invalid_format_phone(browser, phone):
 
-    """Негативные сценарии регистрации на сайте, невалидный формат номера телефона"""
-
-    # Нажимаем на кнопку Зарегистрироваться:
+    #Негативные сценарии регистрации на сайте, невалидный формат номера телефона
+    #Нажимаем на кнопку Зарегистрироваться:
     page = AuthPage(browser)
     page.enter_reg_page()
     browser.implicitly_wait(2)
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(fake_firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(fake_lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(phone)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(fake_password)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
@@ -135,7 +151,7 @@ def test_get_registration_invalid_format_phone(browser, phone):
 
 def test_get_registration_invalid_format_email(browser, email):
 
-    """Негативные сценарии регистрации на сайте, невалидный формат почты"""
+    #Негативные сценарии регистрации на сайте, невалидный формат почты
     # Нажимаем на кнопку Зарегистрироваться:
     page = AuthPage(browser)
     page.enter_reg_page()
@@ -143,21 +159,27 @@ def test_get_registration_invalid_format_email(browser, email):
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(fake_firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(fake_lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(email)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(fake_password)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
@@ -173,8 +195,7 @@ def test_get_registration_invalid_format_email(browser, email):
 
 def test_get_registration_living_account(browser, address):
 
-    """Негативные сценарии регистрации на сайте, проверка на существование аккаунта по номеру тел/почте"""
-
+    #Негативные сценарии регистрации на сайте, проверка на существование аккаунта по номеру тел/почте
     # Нажимаем на кнопку Зарегистрироваться:
     page = AuthPage(browser)
     page.enter_reg_page()
@@ -182,21 +203,27 @@ def test_get_registration_living_account(browser, address):
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(fake_firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(fake_lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(address)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(fake_password)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
@@ -210,8 +237,7 @@ def test_get_registration_living_account(browser, address):
 
 def test_get_registration_diff_pass_and_pass_conf(browser):
 
-    """Негативные сценарии регистрации на сайте, проверка на совпадение паролей в
-    полях ввода 'Пароль' и 'Подтверждение пароля'."""
+    #Негативные сценарии регистрации на сайте, проверка на совпадение паролей в полях ввода 'Пароль' и 'Подтверждение пароля'
 
     page = AuthPage(browser)
     page.enter_reg_page()
@@ -219,21 +245,27 @@ def test_get_registration_diff_pass_and_pass_conf(browser):
     assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
 
     page = RegPage(browser)
+  
     # Вводим имя:
     page.enter_firstname(fake_firstname)
     browser.implicitly_wait(5)
+  
     # Вводим фамилию:
     page.enter_lastname(fake_lastname)
     browser.implicitly_wait(5)
+  
     # Вводим адрес почты/Email:
     page.enter_email(fake_email)
     browser.implicitly_wait(3)
+  
     # Вводим пароль:
     page.enter_password(fake_password)
     browser.implicitly_wait(3)
+  
     # Вводим подтверждение пароля:
     page.enter_pass_conf(valid_pass_reg)
     browser.implicitly_wait(3)
+  
     # Нажимаем на кнопку 'Зарегистрироваться':
     page.btn_click()
 
