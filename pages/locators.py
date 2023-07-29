@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class AuthLocators:
-    """Локаторы страницы авторизации"""
+    #Локаторы страницы авторизации
     AUTH_USERNAME = (By.ID, 'username')
     AUTH_PASS = (By.ID, 'password')
     AUTH_BTN = (By.ID, 'kc-login')
@@ -15,7 +15,7 @@ class AuthLocators:
 
 
 class RegLocators:
-    """Локаторы страницы регистрации"""
+    #Локаторы страницы регистрации
     REG_FIRSTNAME = (By.XPATH, "//input[@name='firstName']")
     REG_LASTNAME = (By.XPATH, "//input[@name='lastName']")
     REG_REGION = (By.XPATH, "//input[@autocomplete='new-password']")
@@ -27,7 +27,7 @@ class RegLocators:
 
 
 class NewPassLocators:
-    """Локаторы страницы восстановления пароля"""
+    #Локаторы страницы восстановления пароля
     NEWPASS_ADDRESS = (By.ID, 'username')
     NEWPASS_BTN_CONTINUE = (By.ID, 'reset')
     NEWPASS_ONETIME_CODE = (By.XPATH, '//input[@inputmode="numeric"]')
