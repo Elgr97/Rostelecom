@@ -2,16 +2,14 @@ import json
 import requests
 
 class RegistrationEmail:
-    """ Открываем сайт 1secmail.com, создаем запрос на создание виртуального email
+    """ Открываем сайт temp-mail.org, создаем запрос на создание виртуального email
     для регистрации в личном кабинете "Ростелеком"."""
 
     def __init__(self):
-        self.base_url = 'https://www.1secmail.com/api/v1/'
+        self.base_url = 'https://temp-mail.org/'
 
     def get_api_email(self) -> json:
-
         """ Получаем валидный адрес электронной почты"""
-
         action = {'action': 'genRandomMailbox', 'count': 1}
         res = requests.get(self.base_url, params=action)
         status_email = res.status_code
@@ -21,11 +19,8 @@ class RegistrationEmail:
             result_email = res.text
         return result_email, status_email
 
-
     def get_id_letter(self, login: str, domain: str) -> json:
-
         """ Проверяем mailbox, получаем mail_id"""
-
         action = {'action': 'getMessages', 'login': login, 'domain': domain}
         res = requests.get(self.base_url, params=action)
         status_id = res.status_code
@@ -35,11 +30,8 @@ class RegistrationEmail:
             result_id = res.text
         return result_id, status_id
 
-
     def get_reg_code(self, login: str, domain: str, ids: str) -> json:
-
         """ Получаем письмо с кодом регистрации от Ростелекома (id=ids) """
-
         action = {'action': 'readMessage', 'login': login, 'domain': domain, 'id': ids}
         res = requests.get(self.base_url, params=action)
         status_code = res.status_code
