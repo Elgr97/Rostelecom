@@ -20,10 +20,10 @@ fake_email = fake.email()
 valid_phone = os.getenv('phone')
 valid_login = os.getenv('login')
 valid_password = os.getenv('password')
-invalid_ls = '242010005665'
+invalid_ls = '241910001343'
 
-valid_email = 'm0dfha@wuuvo.com'
-valid_pass_reg = '!A$A&BccA2'
+valid_email = 'cepapov192@quipas.com'
+valid_pass_reg = '!O$O&veew0'
 
 
 def generate_string_rus(n):
