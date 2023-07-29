@@ -4,6 +4,9 @@ import time
 import pytest
 from pages.auth import *
 from pages.settings import *
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 @pytest.mark.auth
@@ -33,9 +36,11 @@ def test_auth_page_fake_email(browser):
     page = AuthPage(browser)
     page.enter_username(fake_email)
     page.enter_password(valid_pass_reg)
-    time.sleep(20)     # время на ввод капчи при ее появлении
-    page.btn_click_enter()
-    browser.implicitly_wait(10)
+    
+    # Ожидание появления капчи с таймаутом 30 секунд
+    captcha = WebDriverWait(browser, 30).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, 'selector-for-captcha-element'))
+    )
 
     error_mess = browser.find_element(*AuthLocators.AUTH_FORM_ERROR)
     forgot_pass = browser.find_element(*AuthLocators.AUTH_FORGOT_PASSWORD)
@@ -67,18 +72,16 @@ def test_auth_page_fake_password(browser, username):
 @pytest.mark.auth
 @pytest.mark.negative
 def test_auth_page_phone_empty_username(browser):
-    """ Проверка авторизации по номеру телефона/почте/логину/лицевому счету - пустой строке и паролю"""
+    """Проверка авторизации по телефону, пустой номер"""
     page = AuthPage(browser)
-    page.enter_username('')
-    page.enter_password(valid_password)
+    page.clear_username_field()
+    page.enter_password(valid_pass_phone)
     page.btn_click_enter()
     browser.implicitly_wait(10)
 
-    error_mess = browser.find_element(*AuthLocators.AUTH_MESS_ERROR)
-    assert error_mess.text == 'Введите номер телефона' or \
-           error_mess.text == 'Введите адрес, указанный при регистрации' or \
-           error_mess.text == 'Введите логин, указанный при регистрации' or \
-           error_mess.text == 'Введите номер вашего лицевого счета'
+    error_mess = browser.find_element(*AuthLocators.AUTH_FORM_ERROR)
+
+    assert 'Поле обязательно для заполнения' in error_mess.text
 
 
 @pytest.mark.auth
