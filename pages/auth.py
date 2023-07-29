@@ -1,9 +1,8 @@
-import ast
-from pages.base import BasePage
-from pages.locators import *
-import time
 import os
-
+import ast
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class RegPage(BasePage):
     def __init__(self, driver, timeout=10):
@@ -30,7 +29,7 @@ class RegPage(BasePage):
     def enter_pass_conf(self, value):
         self.pass_conf.send_keys(value)
 
-    def btn_click(self):
+    def click_button(self):
         self.btn.click()
 
 
@@ -51,18 +50,17 @@ class AuthPage(BasePage):
     def enter_password(self, value):
         self.password.send_keys(value)
 
-    def btn_click_enter(self):
+    def click_enter_button(self):
         self.btn.click()
-        time.sleep(10)
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается
 
     def enter_reg_page(self):
         self.reg_in.click()
-        time.sleep(10)
-
-    def switch_active_tab(self):
-        self.active_tab()
-	
-	 def check_color(self, elem):
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается 
+    
+    def check_color(self, elem):
         try:
             rgba = elem.value_of_css_property('color')
             r, g, b, alpha = ast.literal_eval(rgba.strip('rgba'))
@@ -71,7 +69,6 @@ class AuthPage(BasePage):
             print(f"Произошла ошибка при проверке цвета: {e}")
             return None
 
-	
 class NewPassPage(BasePage):
     def __init__(self, driver, timeout=10):
         super().__init__(driver, timeout)
@@ -83,13 +80,10 @@ class NewPassPage(BasePage):
     def enter_username(self, value):
         self.username.send_keys(value)
 
-    def btn_click_continue(self):
-        self.btn.click()
-        time.sleep(10)
-		
-	def btn_click_continue(self):
+    def click_continue_button(self):
         try:
             self.btn.click()
-            time.sleep(10)
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается
         except Exception as e:
             print(f"Произошла ошибка при нажатии кнопки 'Продолжить': {e}")
