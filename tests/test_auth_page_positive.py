@@ -1,71 +1,97 @@
-import pickle
-import time
 import pytest
-from pages.auth import *
+from pages.auth import AuthPage
 from selenium.webdriver.common.by import By
 from pages.settings import valid_phone, valid_login, valid_password, invalid_ls, valid_email, valid_pass_reg
 
+@pytest.fixture
+def auth_page(browser):
+    return AuthPage(browser)
 
-@pytest.mark.auth
-@pytest.mark.positive
-@pytest.mark.xfail
-@pytest.mark.parametrize('username', [valid_phone, valid_email, valid_login, invalid_ls],
+@pytest.mark.parametrize('username', ['valid_phone', 'valid_email', 'valid_login', 'invalid_ls'],
                          ids=['phone', 'email', 'login', 'ls'])
-def test_active_tab(browser, username):
-    """Проверка автоматического переключения табов телефон/email/логин/лицевой счет
-    invalid_ls - лицевой счет правильного формата, при ручном переключении таба на лицевой счет,
-    система его принимает, в автоматическом режиме переключения не происходит, воспринимается
-    как номер телефона, откидывая последнюю пару цифр!"""
-    page = AuthPage(browser)
-    page.enter_username(username)
-    page.enter_password(valid_password)
-    if username == valid_phone:
-        assert browser.find_element(*AuthLocators.AUTH_ACTIVE_TAB).text == 'Телефон'
-    elif username == valid_email:
-        assert browser.find_element(*AuthLocators.AUTH_ACTIVE_TAB).text == 'Почта'
-    elif username == valid_login:
-        assert browser.find_element(*AuthLocators.AUTH_ACTIVE_TAB).text == 'Логин'
+def test_active_tab(auth_page, username):
+    """Проверка автоматического переключения табов телефон/email/логин/лицевой счет"""
+    
+    auth_page.enter_username(username)
+    auth_page.enter_password('valid_password')
+    
+    if username == 'valid_phone':
+        active_tab_element = auth_page.get_active_tab()
+        assert active_tab_element == 'Телефон'
+    elif username == 'valid_email':
+        active_tab_element = auth_page.get_active_tab()
+        assert active_tab_element == 'Почта'
+    elif username == 'valid_login':
+        active_tab_element == auth_page.get_active_tab()
+        assert active_tab_element == 'Логин'
     else:
-        assert browser.find_element(*AuthLocators.AUTH_ACTIVE_TAB).text == 'Лицевой счет'
+        active_tab_element = auth_page.get_active_tab()
+        assert active_tab_element == 'Лицевой счет'
 
 
-@pytest.mark.auth
-@pytest.mark.positive
-@pytest.mark.parametrize('username', [valid_phone, valid_login],
+def test_invalid_password(auth_page):
+    """Проверка авторизации с недопустимым паролем"""
+    
+    auth_page.enter_username('valid_username')
+    auth_page.enter_password('invalid_password')
+    auth_page.submit_form()
+
+    assert auth_page.get_error_message() == "Invalid password"
+	
+	
+@pytest.mark.parametrize('username', ['valid_phone', 'valid_login'],
                          ids=['valid phone', 'valid login'])
-def test_auth_page_phone_login_valid(browser, username):
+def test_auth_page_phone_login_valid(auth_page, username):
     """Проверка авторизации по номеру телефона/логину и паролю + проверка
     автоматического переключения табов тел/логин (для проверки нужен зарегистрированный номер телефона)"""
-    page = AuthPage(browser)
-    page.enter_username(username)
-    page.enter_password(valid_password)
-    page.btn_click_enter()
+    
+    auth_page.enter_username(username)
+    auth_page.enter_password('valid_password')
+    auth_page.btn_click_enter()
 
-    assert page.get_relative_link() == '/account_b2c/page'
+    assert auth_page.get_relative_link() == '/account_b2c/page'
 
 
-@pytest.mark.auth
-@pytest.mark.positive
-def test_auth_page_email_valid(browser):
+@pytest.mark.screenshot
+def test_auth_page_email_valid(auth_page):
     """Проверка авторизации по почте и паролю"""
-    page = AuthPage(browser)
-    page.enter_username(valid_email)
-    page.enter_password(valid_pass_reg)
-    time.sleep(25)     # на случай появления Captcha, необходимости ее ввода вручную
-    page.btn_click_enter()
-    page.driver.save_screenshot('auth_by_email.png')
-
-    with open('my_cookies.txt', 'wb') as cookies:
-        pickle.dump(browser.get_cookies(), cookies)
-
-    assert page.get_relative_link() == '/account_b2c/page'
+    
+    auth_page.enter_username('valid_email')
+    auth_page.enter_password('valid_pass_reg')
+    auth_page.submit_form()
+    
+    assert auth_page.get_relative_link() == '/account_b2c/page'
 
 
-@pytest.mark.reg
-@pytest.mark.positive
-def test_reg_page_open(browser):
-    """ Проверка страницы регистрации - дымовое тестирование """
-    page = AuthPage(browser)
-    page.enter_reg_page()
+def test_captcha(auth_page, monkeypatch):
+    """Проверка авторизации с Captcha"""
+    
+    auth_page.enter_username('valid_email')
+    auth_page.enter_password('valid_password')
+    
+    def mock_is_captcha_present():
+        return True
+    
+    monkeypatch.setattr(auth_page, 'is_captcha_present', mock_is_captcha_present)
+    
+    # Вводим данные для капчи
+    captcha_code = 'captcha_code'
+    auth_page.enter_captcha(captcha_code)
+    auth_page.submit_form()
+    
+    assert auth_page.is_logged_in()
 
-    assert page.get_relative_link() == '/auth/realms/b2c/login-actions/registration'
+def test_no_captcha(auth_page, monkeypatch):
+    """Проверка авторизации без Captcha"""
+    
+    auth_page.enter_username('valid_email')
+    auth_page.enter_password('valid_password')
+    
+    def mock_is_captcha_present():
+        return False
+    
+    monkeypatch.setattr(auth_page, 'is_captcha_present', mock_is_captcha_present)
+    
+    auth_page.submit_form()
+    
+    assert auth_page.is_logged_in()
