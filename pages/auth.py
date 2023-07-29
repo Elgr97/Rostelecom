@@ -1,5 +1,6 @@
 import os
 import ast
+from pages.locators import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -53,12 +54,12 @@ class AuthPage(BasePage):
     def click_enter_button(self):
         self.btn.click()
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается
+        wait.until(EC.visibility_of_element_located((By.XPATH, *AuthLocators.AUTH_BTN)))
 
     def enter_reg_page(self):
         self.reg_in.click()
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается 
+        wait.until(EC.visibility_of_element_located((By.XPATH, *AuthLocators.AUTH_REG_IN))) 
     
     def check_color(self, elem):
         try:
@@ -69,6 +70,7 @@ class AuthPage(BasePage):
             print(f"Произошла ошибка при проверке цвета: {e}")
             return None
 
+	
 class NewPassPage(BasePage):
     def __init__(self, driver, timeout=10):
         super().__init__(driver, timeout)
@@ -84,6 +86,6 @@ class NewPassPage(BasePage):
         try:
             self.btn.click()
             wait = WebDriverWait(self.driver, 10)
-            wait.until(EC.visibility_of_element_located((By.XPATH, <locator of the expected element>))) #заменить <locator of the expected element> на локатор элемента, появление которого ожидается
+            wait.until(EC.visibility_of_element_located((By.XPATH, *AuthLocators.AUTH_BTN))) 
         except Exception as e:
             print(f"Произошла ошибка при нажатии кнопки 'Продолжить': {e}")
