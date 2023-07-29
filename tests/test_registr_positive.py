@@ -9,7 +9,6 @@ from pages.settings import valid_phone, valid_login, valid_password, fake_firstn
 class TestRegistration:
 
     #Проверка регистрации на сайте
-
     #Выносим данные в тело класса для доступа к значениям переменных из всех функций класса:
 
     result_email, status_email = RegistrationEmail().get_api_email()  # запрос на получение валидного почтового ящика
@@ -83,7 +82,7 @@ class TestRegistration:
         reg_code = text_body[text_body.find('Ваш код : ') + len('Ваш код : '):
                              text_body.find('Ваш код : ') + len('Ваш код : ') + 6]
         
-		#Сверяем полученные данные
+	#Сверяем полученные данные
         assert status_code == 200, "status_code error"
         assert reg_code != '', "reg_code != [] error"
 
