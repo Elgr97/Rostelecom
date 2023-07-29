@@ -1,5 +1,4 @@
 import pytest
-import time
 from faker import Faker
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
