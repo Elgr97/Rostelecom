@@ -18,7 +18,7 @@ class RegLocators:
     """Локаторы страницы регистрации"""
     REG_FIRSTNAME = (By.XPATH, "//input[@name='firstName']")
     REG_LASTNAME = (By.XPATH, "//input[@name='lastName']")
-    REG_REGION = (By.XPATH, "//input[@autocomplete='new-password']"[0])
+    REG_REGION = (By.XPATH, "//input[@autocomplete='new-password']")
     REG_ADDRESS = (By.ID, 'address')
     REG_PASSWORD = (By.ID, 'password')
     REG_PASS_CONFIRM = (By.XPATH, "//input[@id='password-confirm']")
