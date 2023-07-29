@@ -1,10 +1,9 @@
+import time
+import pytest
 from pages.registration_email import RegistrationEmail
 from pages.auth import *
 from selenium.webdriver.common.by import By
 from pages.settings import *
-import time
-import pytest
-
 
 @pytest.mark.reg
 @pytest.mark.negatvie
